@@ -4,9 +4,16 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import 'amfe-flexible'
-
-// 简单粗暴全引进来，方便使用
+import VeeValidate, { Validator } from 'vee-validate'
+import zhCN from 'vee-validate/dist/locale/zh_CN'
 import 'vant/lib/index.css'
+Vue.use(VeeValidate, {
+  events: '' // 禁用默认事件验证
+})
+
+Validator.localize('zh_CN', zhCN)
+// 简单粗暴全引进来，方便使用
+
 Vue.use(Vant)
 
 Vue.config.productionTip = false

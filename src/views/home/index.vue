@@ -1,6 +1,8 @@
 <template>
     <div>
-        <p>home页面</p>
+      <div class="home">
+        <van-nav-bar title="首页"/>
+      </div>
     </div>
 </template>
 

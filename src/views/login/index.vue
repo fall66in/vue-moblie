@@ -21,10 +21,13 @@
             />
           </van-cell-group>
         </form>
+        <!-- 登录按钮 -->
         <div class="login-btn-box">
           <!-- prevent防止按钮进行调转 -->
           <van-button
           type="info"
+          :loading="loginLoading"
+          loading-text="登录中..."
           class="login-btn"
           @click.prevent="handleLogin"
           >登录</van-button>
@@ -38,14 +41,16 @@ export default {
   name: 'loginIndex',
   data () {
     return {
-      user: {
+      user: { // 提交登录的表单数据
         mobile: '18135025161',
         code: '246810'
-      }
+      },
+      loginLoading: false // 控制登录按钮的loading状态
     }
   },
   methods: {
     async handleLogin () {
+      this.loginLoading = true
       try {
         const res = await login(this.user)
 
@@ -59,6 +64,7 @@ export default {
         console.log(err)
         console.log('登录失败')
       }
+      this.loginLoading = false
     }
   }
 }

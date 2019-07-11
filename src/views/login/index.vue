@@ -22,19 +22,42 @@
           </van-cell-group>
         </form>
         <div class="login-btn-box">
-          <van-button type="info" class="login-btn">登录</van-button>
+          <!-- prevent防止按钮进行调转 -->
+          <van-button
+          type="info"
+          class="login-btn"
+          @click.prevent="handleLogin"
+          >登录</van-button>
         </div>
     </div>
 </template>
 
 <script>
+import { login } from '@/api/user'
 export default {
   name: 'loginIndex',
   data () {
     return {
       user: {
-        mobile: '',
-        code: ''
+        mobile: '18135025161',
+        code: '246810'
+      }
+    }
+  },
+  methods: {
+    async handleLogin () {
+      try {
+        const res = await login(this.user)
+
+        this.$store.commit('setUser', res.data.data)
+        // 这里先简单粗暴的跳转到首页
+        // 真实的业务要处理成跳转到之前过来的页面
+        this.$router.push({
+          name: 'home'
+        })
+      } catch (err) {
+        console.log(err)
+        console.log('登录失败')
       }
     }
   }

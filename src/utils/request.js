@@ -6,7 +6,8 @@ import axios from 'axios'
 // 例如有些项目可能会涉及到使用不同的接口路径
 
 const request = axios.create({
-  baseURL: 'http://toutiao.course.itcast.cn'
+  // baseURL: 'http://toutiao.course.itcast.cn'
+  baseURL: 'http://ttapi.research.itcast.cn/'
 })
 
 // axios发送请求的拦截器
@@ -22,7 +23,10 @@ axios.interceptors.request.use(function (config) {
 // Add a response interceptor
 axios.interceptors.response.use(function (response) {
   // Do something with response data
-  return response
+
+  // 如果响应结果对象中有data，则直接返回这个data数据
+  // 如果响应结果对象中没有data，则不作任何处理，直接原样返回这个数据
+  return response.data.data || response.data
 }, function (error) {
   // Do something with response error
   return Promise.reject(error)

@@ -1,10 +1,18 @@
 <template>
     <div>
       <div class="home">
-        <van-nav-bar title="首页"/>
+        <!-- 头部 -->
+        <van-nav-bar class="channel-top" title="首页" fixed/>
         <!-- activeChannelIndex绑定当前激活的标签页，使用索引 -->
-        <van-tabs>
-          <van-tab title="标签 1">
+        <!-- 频道头部 -->
+        <van-tabs class="channel-tabs" v-model="activeChannelIndex">
+          <!-- sticky:是否使用粘性布局 -->
+          <!-- offset-top 粘性布局下愈顶部的最小距离 -->
+          <!-- <van-tab title="标签1" sticky :offset-top="70"> -->
+          <van-tab
+          v-for="channelItem in channels"
+          :key="channelItem.id"
+          :title="channelItem.name">
             <!-- 下拉刷新
             isLoading用来控制下拉刷新的loading状态
             下拉刷新的时候，他会自动将loading设置为true
@@ -30,16 +38,14 @@
                 </van-list>
             </van-pull-refresh>
           </van-tab>
-          <van-tab title="标签 2">内容 2</van-tab>
-          <van-tab title="标签 3">内容 3</van-tab>
-          <van-tab title="标签 4">内容 4</van-tab>
         </van-tabs>
       </div>
     </div>
 </template>
 
 <script>
-import { setTimeout } from 'timers';
+import { setTimeout } from 'timers'
+import { getUserChannels } from '@/api/channel'
 export default {
   name: 'HomeIndex',
   data () {
@@ -47,15 +53,43 @@ export default {
       isLoading: false,
       loading: false,
       finished: false,
-      list: []
+      list: [],
+      activeChannelIndex: 0,
+      channels: [] // 存储频道列表
     }
   },
+  created () {
+    this.loadChannels()
+  },
   methods: {
+    async loadChannels () {
+      const { user } = this.$store.state
+      let channel = []
+      // 已登录
+      if (user) {
+        // 请求获得用户频道列表
+        const data = await getUserChannels()
+        channels = data.channels
+      } else {
+        // 未登录
+
+        // 如果有本地存储数据则使用本地存储中的频道列表
+        const loaclChannels = JSON.parse(window.localStorage.getItem('channels'))
+        if (loaclChannels) {
+          channels = loaclChannels
+        } else {
+          // 如果没有本地存储频道数据则请求获取默认推荐频道列表
+          const data = await getUserChannels()
+          channels = data.channels
+        }
+      }
+      this.channels = channels
+    },
     onLoad () {
       console.log('onload')
       // 异步更新数据
       setTimeout(() => {
-        for (let i =0; i < 10; i++) {
+        for (let i = 0; i < 10; i++) {
           this.list.push(this.list.length + 1)
         }
         // 加载状态结束
@@ -78,5 +112,18 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
+.channel-top {
+  background: blueviolet;
+}
+.channel-tabs {
+  margin-bottom: 70px;
+  margin-top: 80px;
+}
+.channel-tabs /deep/ .van-tabs_wrap {
+  position: fixed;
+  top: 92px;
+}
+.channel-tabs /deep/ .van-tabs_content {
+  margin-top: 100px;
+}
 </style>

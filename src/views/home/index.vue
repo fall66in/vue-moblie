@@ -36,7 +36,7 @@
       </van-tabs>
     </div>
     <!-- 频道组件 -->
-    <!-- <HomeChannel /> -->
+    <HomeChannel />
     <!-- 频道组件 -->
   </div>
 </template>

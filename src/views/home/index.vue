@@ -8,7 +8,11 @@
         v-for="channelItem in channels"
         :key="channelItem.id"
         :title="channelItem.name">
-         <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+         <van-pull-refresh
+         v-model="channelItem.downPullLoading"
+         @refresh="onRefresh"
+         :success-duration="1000"
+         :success-text="channelItem.downPullSuccessText">
           <van-list
             v-model="channelItem.upPullLoading"
             :finished="channelItem.upPullFinished"
@@ -120,7 +124,6 @@ export default {
       // console.log(data)
       // pre_timestamp 下一页页码
       // results 文章列表
-      
 
       // 如果没有pre_temestamp并且数组是空的，则意味着没有数据
       if (!data.pre_timestamp && !data.results.length) {
@@ -150,12 +153,37 @@ export default {
       this.activeChannel.upPullLoading = false
     },
     // 下拉刷新，如果有新数据，则是重置列表数据
-    onRefresh () {
-      setTimeout(() => {
-        this.$toast('刷新成功')
-        this.isLoading = false
-        this.count++
-      }, 500)
+    async onRefresh () {
+      // setTimeout(() => {
+      //   this.$toast('刷新成功')
+      //   this.isLoading = false
+      //   this.count++
+      // }, 500)
+      const { activeChannel } = this
+      // 备份加载下一页数据的时间戳
+      const timestamp = this.activeChannel.timestamp
+      this.activeChannel.timestamp = Date.now()
+      const data = await this.loadArticles()
+
+      // 如果有最新数据，将数据更新到频道的文章列表中
+      if (data.results.length) {
+        // 将当前最新的推荐内容重置到频道文章中
+        activeChannel.articles = data.results
+        //  由于你重置了文章列表，那么当前数据中的pre_timestamp就是上拉加载更多的下一页数据的时间戳
+        activeChannel.timestamp = data.pre_timestamp
+        activeChannel.downPullSuccessText = '更新成功'
+
+        //  当下拉刷新有数据比重置以后数据无法满足一屏，所以我们使用onload在多加载
+        this.onLoad()
+      } else {
+        // 如果没有最新数据，提示已是最新内容
+        activeChannel.downPullSuccessText = '已是最新数据'
+      }
+      // 下拉刷新结束，取消loading状态
+      activeChannel.downPullLoading = false
+
+      // 没有最新数据，将原来的用于请求下一页的时间戳恢复过来
+      activeChannel.timestamp = timestamp
     }
   }
 }

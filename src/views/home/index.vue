@@ -4,6 +4,12 @@
       <!-- 导航栏 -->
       <van-nav-bar class="channel-top" title="首页" fixed/>
       <van-tabs class="channel-tabs" v-model="activeChannelIndex">
+        <!-- tab标签
+        nav-right 标题右侧内容
+        title 自定义标签 -->
+        <div slot="nav-right" class="wap-nav">
+          <van-icon  name="wap-nav"/>
+        </div>
         <van-tab
         v-for="channelItem in channels"
         :key="channelItem.id"
@@ -29,14 +35,24 @@
         </van-tab>
       </van-tabs>
     </div>
+    <!-- 频道组件 -->
+    <!-- <HomeChannel /> -->
+    <!-- 频道组件 -->
   </div>
 </template>
 
 <script>
+// 加载请求频道接口
 import { getUserChannels } from '@/api/channel'
+// 加载请求文章接口
 import { getArticles } from '@/api/article'
+// 加载固定导航组件
+import HomeChannel from './components/channel'
 export default {
-  name: 'Home',
+  name: 'HomeIndex',
+  components: {
+    HomeChannel
+  },
   data () {
     return {
       activeChannelIndex: 0,
@@ -216,5 +232,13 @@ export default {
 }
 .channel-tabs /deep/ .van-tabs_content {
   margin-top: 100px;
+}
+.channel-tabs  .wap-nav {
+  position: sticky;
+  right: 0;
+  display:flex;
+  align-items: center;
+  background: #fff;
+  opacity: .7;
 }
 </style>

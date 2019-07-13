@@ -38,7 +38,7 @@
            <span
            class="text"
            :class="{ active:index === activeIndex }">{{ item.name }}</span>
-           <van-icon class="close-icon" name="close" />
+           <!-- <van-icon class="close-icon" name="close" /> -->
           </van-grid-item>
         </van-grid>
       </div>
@@ -105,6 +105,15 @@ export default {
     async loadAllChannels () {
       try {
         const data = await getAllChannels()
+        // 修改channels，将这个数据结构修改为满足我们使用的需求
+        data.channels.forEach(item => {
+          item.aritcles = [] // 用来存储当前文字的列表
+          item.timestamp = Date.now() // 存储下一页数据的时间戳
+          item.downPullLoading = false // 控制当前频道的下拉刷新loading
+          item.upPullLoading = false // 控制当前频道的上拉加载更多的loading状态
+          item.upPullFinished = false // 控制当前频道数据是否加载完毕
+          item.pullSuccessText = '' // 控制频道列表的下拉刷新成功提示文字
+        })
         console.log(data)
         this.allChannels = data.channels
       } catch (err) {
@@ -116,9 +125,13 @@ export default {
       // props数据有个原则：单向数据流
       // 数据只受父组件影响，但是反之不会
       // 但是引用类型除外
+      // this.userChannels.push(item)
+
       // 建议做法就是将这个数据传递给父组件，让父组件自己去修改
       console.log(item)
-      this.userChannels.push(item)
+      const channels = this.userChannels.slice(0)
+      channels.push(item)
+      this.$emit('update:user-channels', channels)
     }
   }
 }

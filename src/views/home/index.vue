@@ -36,9 +36,17 @@
       </van-tabs>
     </div>
     <!-- 频道组件 -->
+     <!--
+      :value="isChannelShow"
+      @input="isChannelShow = $event"
+      .sync 修饰符会自动监听一个事件：
+      @update:user-channels="channels = $event"
+      简单来说，给 props 数组加 .sync 其实就是 v-model 的作用
+      只不过一个组件只能有一个 v-model
+     -->
     <HomeChannel
     v-model="isChannelShow"
-    :user-channels="channels"
+    :user-channels.sync="channels"
     :active-index="activeChannelIndex"/>
     <!-- 频道组件 -->
   </div>

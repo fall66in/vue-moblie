@@ -57,7 +57,7 @@
           <van-grid-item
           v-for="item in recommendChannels"
           :key="item.id"
-          text="文章">
+          @click="handelAddChannel(item)">
            <span class="text">{{ item.name }}</span>
            <!-- <van-icon class="close-icon" name="close" /> -->
           </van-grid-item>
@@ -87,6 +87,7 @@ export default {
   },
   computed: {
     // 该计算属性用于处理获取推荐数据（也就是不包含用户频道列表的其他所有频道列表数据）
+    // 计算属性有用于watch的功能，但他的作用是用于数据改变之后重新计算返回一些数据供我们使用
     recommendChannels () {
       const duplicates = this.userChannels.map(item => item.id)
       return this.allChannels.filter(item => !duplicates.includes(item.id))
@@ -109,6 +110,15 @@ export default {
       } catch (err) {
         console.log(err)
       }
+    },
+    handelAddChannel (item) {
+      // userChannels是props数据
+      // props数据有个原则：单向数据流
+      // 数据只受父组件影响，但是反之不会
+      // 但是引用类型除外
+      // 建议做法就是将这个数据传递给父组件，让父组件自己去修改
+      console.log(item)
+      this.userChannels.push(item)
     }
   }
 }

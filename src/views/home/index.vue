@@ -8,7 +8,7 @@
         nav-right 标题右侧内容
         title 自定义标签 -->
         <div slot="nav-right" class="wap-nav">
-          <van-icon  name="wap-nav"/>
+          <van-icon  name="wap-nav" @click="isChannelShow = true"/>
         </div>
         <van-tab
         v-for="channelItem in channels"
@@ -36,7 +36,9 @@
       </van-tabs>
     </div>
     <!-- 频道组件 -->
-    <HomeChannel />
+    <HomeChannel
+    v-model="isChannelShow"
+    :user-channels="channels"/>
     <!-- 频道组件 -->
   </div>
 </template>
@@ -60,7 +62,8 @@ export default {
       loading: false,
       finished: false,
       isLoading: false,
-      channels: [] // 存储频道列表
+      channels: [], // 存储频道列表
+      isChannelShow: false // 控制频道面板的显示状态
     }
   },
   computed: {

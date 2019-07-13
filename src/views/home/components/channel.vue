@@ -24,7 +24,8 @@
             <van-button
             type="danger"
             plain
-            size="mini">编辑</van-button>
+            size="mini"
+            @click="isEdit = !isEdit">{{ isEdit ? '完成' : '编辑' }}</van-button>
           </div>
         </div>
         <van-grid
@@ -37,8 +38,8 @@
           text="文章">
            <span
            class="text"
-           :class="{ active:index === activeIndex }">{{ item.name }}</span>
-           <!-- <van-icon class="close-icon" name="close" /> -->
+           :class="{ active:index === activeIndex && !isEdit}">{{ item.name }}</span>
+           <van-icon class="close-icon" name="close" v-show="isEdit"/>
           </van-grid-item>
         </van-grid>
       </div>
@@ -95,7 +96,8 @@ export default {
   },
   data () {
     return {
-      allChannels: []
+      allChannels: [],
+      isEdit: false // 未编辑状态
     }
   },
   created () {
@@ -132,6 +134,25 @@ export default {
       const channels = this.userChannels.slice(0)
       channels.push(item)
       this.$emit('update:user-channels', channels)
+
+      const { user } = this.$store.state
+      // 如果用户已登录，则请求添加用户频道
+      if (user) {
+
+      } else {
+        // 如果没有登录，则添加到本地存储,本地存储数据无法修改，只有重置可以修改
+        // const localChannels = JSON.parse(window.localStorage.getItem('channels'))
+
+        window.localStorage.setItem('channels', JSON.stringify(channels))
+
+        // 如果本地存储有频道列表，则添加到本地存储
+        // if (localChannels) {
+        //   localChannels = this.userChannels
+        // } else {
+
+        // }
+        // window.localStorage.setItem('channels')
+      }
     }
   }
 }

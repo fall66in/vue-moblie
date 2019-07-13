@@ -82,7 +82,7 @@
       !unsupported.checkVersion(process.version).unsupported
     ) {
       const pkg = require('../package.json')
-      let notifier = require('update-notifier')({pkg})
+      let notifier = require('update-notifier')({ pkg })
       const isCI = require('ci-info').isCI
       if (
         notifier.update &&

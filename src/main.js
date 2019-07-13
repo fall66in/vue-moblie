@@ -18,6 +18,15 @@ Vue.use(Vant)
 
 Vue.config.productionTip = false
 
+// 让加载文章列表缓存一下
+Vue.prototype.$sleep = time => {
+  return new Promise((resolve, reject) => {
+    window.setTimeout(() => {
+      resolve()
+    }, time)
+  })
+}
+
 new Vue({
   router,
   store,

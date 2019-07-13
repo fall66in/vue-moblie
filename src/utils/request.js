@@ -8,12 +8,12 @@ import store from '@/store'
 
 const request = axios.create({
   // baseURL: 'http://toutiao.course.itcast.cn'
-  baseURL: 'http://ttapi.research.itcast.cn/' // 线上接口地址
+  baseURL: 'http://ttapi.research.itcast.cn' // 线上接口地址
 })
 
 // axios发送请求的拦截器
 // Add a request interceptor
-axios.interceptors.request.use(function (config) {
+request.interceptors.request.use(function (config) {
   // Do something before request is sent
   // 如果已登录，则为请求接口统一添加用户token
   const { user } = store.state
@@ -27,7 +27,7 @@ axios.interceptors.request.use(function (config) {
 })
 
 // Add a response interceptor
-axios.interceptors.response.use(function (response) {
+request.interceptors.response.use(function (response) {
   // Do something with response data
 
   // 如果响应结果对象中有data，则直接返回这个data数据

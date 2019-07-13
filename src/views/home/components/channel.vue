@@ -32,10 +32,12 @@
         :gutter="10"
         clickable>
           <van-grid-item
-          v-for="item in userChannels"
+          v-for="(item, index) in userChannels"
           :key="item.id"
           text="文章">
-           <span class="text">{{ item.name }}</span>
+           <span
+           class="text"
+           :class="{ active:index === activeIndex }">{{ item.name }}</span>
            <van-icon class="close-icon" name="close" />
           </van-grid-item>
         </van-grid>
@@ -76,6 +78,10 @@ export default {
     userChannels: {
       type: Array,
       default: () => []
+    },
+    activeIndex: {
+      type: Number,
+      default: 0
     }
   },
   data () {

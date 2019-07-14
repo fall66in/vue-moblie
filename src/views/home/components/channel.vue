@@ -74,7 +74,7 @@
 </template>
 
 <script>
-import { getAllChannels, deleteUserChannel } from '@/api/channel'
+import { getAllChannels, deleteUserChannel, updateUserChannel } from '@/api/channel'
 export default {
   name: 'HomeChannel',
   props: {
@@ -153,7 +153,7 @@ export default {
       }
     },
     // 把频道推荐列表添加到我的频道列表中
-    handelAddChannel (item) {
+    async handelAddChannel (item) {
       // userChannels是props数据
       // props数据有个原则：单向数据流
       // 数据只受父组件影响，但是反之不会
@@ -169,7 +169,10 @@ export default {
       const { user } = this.$store.state
       // 如果用户已登录，则请求添加用户频道
       if (user) {
-
+        await updateUserChannel([{
+          id: item.id,
+          seq: channels.length - 1 // 序号
+        }])
       } else {
         // 如果没有登录，则添加到本地存储,本地存储数据无法修改，只有重置可以修改
         // const localChannels = JSON.parse(window.localStorage.getItem('channels'))

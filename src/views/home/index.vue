@@ -29,7 +29,14 @@
               v-for="articleItem in channelItem.articles"
               :key="articleItem.art_id"
               :title="articleItem.title"
-            />
+            >
+            <p slot="label">
+              <span>{{ articleItem.aut_name }}</span>&nbsp;
+              <span>{{ articleItem.comm_count }}评论</span>&nbsp;
+              <!-- <span>{{ relativeTime(articleItem.pubdate) }}</span> -->
+              <span>{{ articleItem.pubdate | relativeTime }}</span>
+            </p>
+            </van-cell>
          </van-list>
         </van-pull-refresh>
         </van-tab>

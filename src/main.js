@@ -7,6 +7,12 @@ import 'amfe-flexible'
 import VeeValidate, { Validator } from 'vee-validate'
 import zhCN from 'vee-validate/dist/locale/zh_CN'
 import 'vant/lib/index.css'
+// 加载时间过滤处理的效果
+import relativeTime from './filters/relativeTime-time'
+
+// 注册一个全局过滤器：处理相对时间
+Vue.filter('relativeTime', relativeTime)
+
 Vue.use(VeeValidate, {
   events: '' // 禁用默认事件验证
 })

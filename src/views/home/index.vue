@@ -46,9 +46,9 @@
               <!-- <span>{{ relativeTime(articleItem.pubdate) }}</span> -->
               <span>{{ articleItem.pubdate | relativeTime }}</span>
             </p>
-            <!-- icon图标 -->
+            <!-- icon图标:更多操作的点击按钮-->
             <div class="icon">
-              <van-icon name="close" />
+              <van-icon name="close" @click="handleShowMoreAction(articleItem)"/>
             </div>
             
             </van-cell>
@@ -76,7 +76,7 @@
     <van-dialog v-model="isMoreActionShow" :showConfirmButton="false">
       <!-- is-link是否展示右侧箭头并开启点击反馈 -->
       <van-cell-group v-if="!toggleRubbish">
-        <van-cell title="不感兴趣"/>
+        <van-cell title="不感兴趣" @click="handleDislike"/>
         <van-cell title="反馈垃圾内容" is-link @click="toggleRubbish = true"/>
         <van-cell title="投诉作者"/>
       </van-cell-group>
@@ -113,8 +113,9 @@ export default {
       isLoading: false,
       channels: [], // 存储频道列表
       isChannelShow: false, // 控制频道面板的显示状态
-      isMoreActionShow: true, // 控制更多操作弹框面板
-      toggleRubbish: false // 控制反馈垃圾弹框内容的显示
+      isMoreActionShow: false, // 控制更多操作弹框面板
+      toggleRubbish: false, // 控制反馈垃圾弹框内容的显示
+      currentArticle: null // 存储当前操作更多的文章
     }
   },
   computed: {
@@ -272,6 +273,14 @@ export default {
 
       // 没有最新数据，将原来的用于请求下一页的时间戳恢复过来
       activeChannel.timestamp = timestamp
+    },
+
+    // 处理显示更多操作弹框面板
+    handleShowMoreAction (item) {
+      // 将点击操作更多的文章存储起来，用于后续使用
+      this.currentArticle = item
+      // 显示弹框
+      this.isMoreActionShow = true
     }
   }
 }

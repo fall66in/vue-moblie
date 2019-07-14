@@ -2,6 +2,7 @@
 
 import request from '@/utils/request'
 
+// 获取文章接口
 export const getArticles = ({
   channelId, // 文章频道
   timestamp, // 时间戳（用于分页）
@@ -14,6 +15,17 @@ export const getArticles = ({
       channel_id: channelId,
       timestamp,
       with_top: withTop
+    }
+  })
+}
+
+// 对文章的不喜欢
+export const dislikeArticle = articleId => {
+  return request({
+    method: 'POST',
+    url: '/app/v1_0/article/dislikes',
+    data: {
+      target: articleId
     }
   })
 }

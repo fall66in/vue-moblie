@@ -281,6 +281,12 @@ export default {
       this.currentArticle = item
       // 显示弹框
       this.isMoreActionShow = true
+    },
+
+    // 不感兴趣操作按钮
+    async handleDislike () {
+      // 拿到操作的文章 id
+      // 请求完成操作
     }
   }
 }

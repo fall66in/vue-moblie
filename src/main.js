@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Vant from '../node_modules/vant'
+import Vant, { Lazyload } from '../node_modules/vant'
 import App from './App.vue'
 import router from './router'
 import store from './store'
@@ -7,9 +7,12 @@ import 'amfe-flexible'
 import VeeValidate, { Validator } from 'vee-validate'
 import zhCN from 'vee-validate/dist/locale/zh_CN'
 import 'vant/lib/index.css'
+
 // 加载时间过滤处理的效果
 import relativeTime from './filters/relativeTime-time'
 
+// 注册vant的图片懒加载自定义指令
+Vue.use(Lazyload)
 // 注册一个全局过滤器：处理相对时间
 Vue.filter('relativeTime', relativeTime)
 

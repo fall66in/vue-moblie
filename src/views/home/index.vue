@@ -30,6 +30,16 @@
               :key="articleItem.art_id"
               :title="articleItem.title"
             >
+            <div slot="label">
+              <!-- 图片懒加载：设置lazy-load属性来开启图片懒加载，需要搭配 Lazyload 组件使用 -->
+              <template v-if="articleItem.cover.type">
+                 <van-grid :border="false" :column-num="3">
+                    <van-grid-item v-for="(img, index) in articleItem.cover.images" :key="index">
+                      <van-image :src="img" lazy-load />
+                    </van-grid-item>
+                  </van-grid>
+              </template>
+            </div>
             <p slot="label">
               <span>{{ articleItem.aut_name }}</span>&nbsp;
               <span>{{ articleItem.comm_count }}评论</span>&nbsp;

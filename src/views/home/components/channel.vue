@@ -5,7 +5,8 @@
      v-bind:value="数据"
      v-on:input="数据=$event"
      lazy-render 关闭懒加载 -->
-
+     
+    <!-- Popup 弹出层 -->
     <van-popup
       :value="value"
       @input="$emit('input',$event)"
@@ -28,6 +29,8 @@
             @click="isEdit = !isEdit">{{ isEdit ? '完成' : '编辑' }}</van-button>
           </div>
         </div>
+        <!-- Grid 宫格 -->
+        <!-- clickable	是否开启格子点击反馈 -->
         <van-grid
         class="channel-content"
         :gutter="10"
@@ -71,7 +74,7 @@
 </template>
 
 <script>
-import { getAllChannels } from '@/api/channel'
+import { getAllChannels, deleteUserChannel } from '@/api/channel'
 export default {
   name: 'HomeChannel',
   props: {
@@ -92,13 +95,15 @@ export default {
     // 该计算属性用于处理获取推荐数据（也就是不包含用户频道列表的其他所有频道列表数据）
     // 计算属性有用于watch的功能，但他的作用是用于数据改变之后重新计算返回一些数据供我们使用
     recommendChannels () {
+      // 遍历所有的数据
       const duplicates = this.userChannels.map(item => item.id)
+      // 筛选数据
       return this.allChannels.filter(item => !duplicates.includes(item.id))
     }
   },
   data () {
     return {
-      allChannels: [],
+      allChannels: [], // 获取所有的频道列表
       isEdit: false // 未编辑状态
     }
   },
@@ -106,7 +111,7 @@ export default {
     this.loadAllChannels()
   },
   methods: {
-    handelUserChannelClick (item, index) {
+    async handelUserChannelClick (item, index) {
       // 如果是非编辑状态，则是切换tab显示
       if (!this.isEdit) {
         this.$emit('update:active-index', index)
@@ -119,13 +124,16 @@ export default {
       this.$emit('update:user-channels', channels)
       
       const { user } = this.$store.state
-      // 如果用户已登录，则请求删除，如果用户未登录，则数据保存在本地
+      // 如果用户已登录，则请求删除
       if (user) {
+        await deleteUserChannel(item.id)
         return
       }
+      // 如果用户未登录，则数据保存在本地
       window.localStorage.setItem('channels', JSON.stringify(channels))
 
     },
+    // 加载所有的频道列表
     async loadAllChannels () {
       try {
         const data = await getAllChannels()
@@ -144,6 +152,7 @@ export default {
         console.log(err)
       }
     },
+    // 把频道推荐列表添加到我的频道列表中
     handelAddChannel (item) {
       // userChannels是props数据
       // props数据有个原则：单向数据流

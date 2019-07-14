@@ -109,6 +109,8 @@ export default {
       })
       return data
     },
+
+    // 加载频道列表
     async loadChannels () {
       const { user } = this.$store.state
       let channels = []
@@ -139,9 +141,11 @@ export default {
         item.downPullLoading = false // 控制当前频道的下拉刷新loading
         item.upPullLoading = false // 控制当前频道的上拉加载更多的loading状态
         item.upPullFinished = false // 控制当前频道数据是否加载完毕
+        item.pullSuccessText = '' // 控制频道列表的下拉刷新成功提示文字
       })
       this.channels = channels
     },
+
     // 上拉加载更多
     async onLoad () {
       // 异步更新数据
@@ -187,12 +191,13 @@ export default {
       this.activeChannel.timestamp = data.pre_timestamp
 
       // 将文章数据更新到频道中（注意：是push追加，不是赋值）
-      this.activeChannel.articles = data.results
-      // this.activeChannel.articles.push(...data.results)
+      // this.activeChannel.articles = data.results
+      this.activeChannel.articles.push(...data.results)
 
       // 数据加载完毕，取消上拉loading
       this.activeChannel.upPullLoading = false
     },
+    
     // 下拉刷新，如果有新数据，则是重置列表数据
     async onRefresh () {
       // setTimeout(() => {
@@ -202,8 +207,8 @@ export default {
       // }, 500)
       const { activeChannel } = this
       // 备份加载下一页数据的时间戳
-      const timestamp = this.activeChannel.timestamp
-      this.activeChannel.timestamp = Date.now()
+      const timestamp = activeChannel.timestamp
+      activeChannel.timestamp = Date.now()
       const data = await this.loadArticles()
 
       // 如果有最新数据，将数据更新到频道的文章列表中

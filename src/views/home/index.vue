@@ -96,7 +96,7 @@
 // 加载请求频道接口
 import { getUserChannels } from '@/api/channel'
 // 加载请求文章接口
-import { getArticles } from '@/api/article'
+import { getArticles, dislikeArticle } from '@/api/article'
 // 加载固定导航组件
 import HomeChannel from './components/channel'
 export default {
@@ -286,7 +286,21 @@ export default {
     // 不感兴趣操作按钮
     async handleDislike () {
       // 拿到操作的文章 id
+      const articleId = this.currentArticle.art_id.toString()
       // 请求完成操作
+      await dislikeArticle(articleId)
+
+      // 隐藏对话框
+      this.isMoreActionShow = false
+
+      // 当前频道文章列表
+      const articles = this.activeChannel.articles
+
+      // 找到不喜欢的文章位于文章中的索引
+      const delIndex = articles.findIndex(item => item.art_id.toString() === articleId)
+
+      // 把不喜欢的数据移除
+      articles.splice(delIndex, 1)
     }
   }
 }

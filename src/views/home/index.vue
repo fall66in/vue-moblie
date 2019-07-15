@@ -25,9 +25,11 @@
             finished-text="没有更多了"
             @load="onLoad"
           >
+            <!-- 列表中的内容
+            对于模板中的错误，推荐的调试方式就是：注释排除调试法 -->
             <van-cell
               v-for="articleItem in channelItem.articles"
-              :key="articleItem.art_id"
+              :key="articleItem.art_id.toString()"
               :title="articleItem.title"
             >
             <div slot="label">
@@ -50,7 +52,7 @@
             <div class="icon">
               <van-icon name="close" @click="handleShowMoreAction(articleItem)"/>
             </div>
-            
+
             </van-cell>
          </van-list>
         </van-pull-refresh>
@@ -240,7 +242,7 @@ export default {
       // 数据加载完毕，取消上拉loading
       this.activeChannel.upPullLoading = false
     },
-    
+
     // 下拉刷新，如果有新数据，则是重置列表数据
     async onRefresh () {
       // setTimeout(() => {

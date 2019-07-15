@@ -5,7 +5,7 @@
      v-bind:value="数据"
      v-on:input="数据=$event"
      lazy-render 关闭懒加载 -->
-     
+
     <!-- Popup 弹出层 -->
     <van-popup
       :value="value"
@@ -30,7 +30,7 @@
           </div>
         </div>
         <!-- Grid 宫格 -->
-        <!-- clickable	是否开启格子点击反馈 -->
+        <!-- clickable是否开启格子点击反馈 -->
         <van-grid
         class="channel-content"
         :gutter="10"
@@ -122,7 +122,7 @@ export default {
       const channels = this.userChannels.slice(0)
       channels.splice(index, 1)
       this.$emit('update:user-channels', channels)
-      
+
       const { user } = this.$store.state
       // 如果用户已登录，则请求删除
       if (user) {
@@ -131,7 +131,6 @@ export default {
       }
       // 如果用户未登录，则数据保存在本地
       window.localStorage.setItem('channels', JSON.stringify(channels))
-
     },
     // 加载所有的频道列表
     async loadAllChannels () {

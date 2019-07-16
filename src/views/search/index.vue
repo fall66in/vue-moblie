@@ -9,7 +9,9 @@
         @search="handleSearch(searchText)"/>
 
         <!-- 联想建议表 -->
-        <van-cell-group>
+        <van-cell-group
+        v-if="suggestions.length && searchText.length"
+        >
             <!-- <van-cell title="单元格" icon="search" />
             <van-cell title="单元格" icon="search" />
             <van-cell title="单元格" icon="search" />
@@ -30,15 +32,31 @@
         </van-cell-group>
 
         <!-- 历史记录 -->
-        <!-- <van-cell-group>
+        <van-cell-group v-else>
           <van-cell title="历史记录">
-            <v-icon
+            <van-icon
+            v-show="!isDeleteShow"
             slot="right-icon"
             name="delete"
-            style="line-height: inherit;">
-            </v-icon>
+            style="line-height: inherit;"
+            @click="isDeleteShow = true"/>
+            <div v-show="isDeleteShow">
+              <span style="margin-right:10px;"
+              @click="serachHistories = []">全部删除</span>
+              <span @click="isDeleteShow = false">完成</span>
+            </div>
           </van-cell>
-        </van-cell-group> -->
+          <van-cell
+          v-for="(item, index) in serachHistories"
+          :key="item"
+          :title="item">
+          <van-icon v-show="isDeleteShow"
+          slot="right-icon"
+          name="close"
+          style="line-height: inherit;"
+          @click="serachHistories.splice(index, 1)"/>
+          </van-cell>
+        </van-cell-group>
     </div>
 </template>
 
@@ -50,8 +68,10 @@ export default {
   name: 'Search',
   data () {
     return {
-      searchText: '',
-      suggestions: []
+      searchText: '', // 搜索输入的文本
+      suggestions: [], // 联想建议
+      serachHistories: JSON.parse(window.localStorage.getItem('serach-histories')), // 搜索历史记录
+      isDeleteShow: false
     }
   },
   watch: {
@@ -72,7 +92,21 @@ export default {
       const data = await getSuggestion(newVal)
       console.log(data)
       this.suggestions = data.options
-    }, 500)
+    }, 500),
+
+    serachHistories: {
+      hendler () {
+        // 保存搜索历史记录
+        window.localStorage.setItem(
+        'serach-histories',
+        JSON.stringify([...new set(this.serachHistories)])
+        )
+      },
+      deep: true // 建议引用类型数据都配置为深度监视
+    }
+  },
+  deactivated () {
+    this.$destroy()
   },
   methods: {
     // 关键字高亮
@@ -82,6 +116,18 @@ export default {
     },
     // 触发搜索按钮,跳转到搜索结果的页面
     handleSearch (q) {
+      
+      if (!q.length) {
+        return
+      }
+
+      // this.serachHistories.push(q)
+      // // 保存搜索历史记录
+      // window.localStorage.setItem(
+      //   'serach-histories',
+      //   JSON.stringify([...new set(this.serachHistories)])
+      // )
+      // this.serachHistories.unshift(q)
       this.$router.push({
         name: 'search-result',
         params: {

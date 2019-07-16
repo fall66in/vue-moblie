@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="login-wrap">
         <!-- 导航栏 -->
         <van-nav-bar title="登录" />
         <!-- field输入框 -->
@@ -47,7 +47,7 @@ export default {
   data () {
     return {
       user: { // 提交登录的表单数据
-        mobile: '18135025161',
+        mobile: '13552580169',
         code: '246810'
       },
       loginLoading: false, // 控制登录按钮的loading状态
@@ -64,7 +64,6 @@ export default {
   },
   methods: {
     async handleLogin () {
-      this.loginLoading = true
       // if (this.user.mobile.trim().length) {
       //   this.mobileMessage = ''
       // } else {
@@ -76,22 +75,26 @@ export default {
       // } else {
       //   this.codeMessage = '请输入密码'
       //   return
-      // }
-      // 通过JavaScript触发验证
-      const valid = await this.$validator.validate()
-      // 如果校验失败，则停止后续代码执行
-      if (!valid) {
-        return
-      }
+      // }     
       try {
+        // 调用JavaScript触发验证
+        const valid = await this.$validator.validate()
+        // 如果校验失败，则停止后续代码执行
+        if (!valid) {
+          return
+        }
+        // 表单验证通过，发送请求，loading加载
+        this.loginLoading = true
         const res = await login(this.user)
 
-        this.$store.commit('setUser', res.data.data)
+        this.$store.commit('setUser', res)
+        
         // 这里先简单粗暴的跳转到首页
         // 真实的业务要处理成跳转到之前过来的页面
         this.$router.push({
           name: 'home'
         })
+        this.$toast.success('登录成功')
       } catch (err) {
         // console.log(err)
         // console.log('登录失败')

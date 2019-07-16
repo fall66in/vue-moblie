@@ -19,9 +19,14 @@ export default new Router({
       ]
     },
     {
-      name: 'login',
+      name: 'login', // 登录页面
       path: '/login',
       component: () => import('@/views/login')
+    },
+    {
+      name: 'search', // 搜索页面
+      path: '/search',
+      component: () => import('@/views/search')
     }
   ]
 })

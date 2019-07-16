@@ -29,3 +29,20 @@ export const dislikeArticle = articleId => {
     }
   })
 }
+
+// 举报文章
+export const reportArticle = ({
+  articleId,
+  type, // 举报类型：0,1,2,3,4,5,6,7,8,9
+  remark // 其他问题的附加说明
+}) => {
+  return request({
+    method: 'POST',
+    url: '/app/v1_0/article/reports',
+    data: {
+      target: articleId,
+      type: Number.parseInt(type),
+      remark
+    }
+  })
+}

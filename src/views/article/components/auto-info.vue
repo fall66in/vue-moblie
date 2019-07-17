@@ -2,10 +2,13 @@
 <template>
    <div class="auto-info">
      <div class="base-info">
-         <img class="avatar" src="http://toutiao.meiduo.site/FkTXjvBkdM-pE9gQSzFjXlE7cIbY" alt="">
+         <img class="avatar" :src="article.aut_photo" alt="">
+         <!-- <img class="avatar" src="http://toutiao.meiduo.site/FkTXjvBkdM-pE9gQSzFjXlE7cIbY" alt=""> -->
          <div>
-           <p>阳光新闻</p>
-           <p>1小时前 阳光新闻官方账号</p>
+           <p>{{ article.aut-name }}</p>
+           <p>{{ article.pubdate | relativeTime }}</p>
+           <!-- <p>阳光新闻</p>
+           <p>1小时前 阳光新闻官方账号</p> -->
          </div>
       </div>
       <div>
@@ -17,7 +20,12 @@
 <script>
 export default {
   name: 'AutoInfo',
-  props: {},
+  props: {
+    article: {
+      type: Object,
+      default: () => {}
+    }
+  },
   data () {
     return {
 

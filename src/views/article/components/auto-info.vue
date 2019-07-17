@@ -12,12 +12,19 @@
          </div>
       </div>
       <div>
-        <van-button type="danger">关注</van-button>
+        <van-button
+        :type="article.is_followed ? 'default' : 'danger'"
+        @click="handleFollow"
+        :loading="isFollowLoading"
+        >{{ article.is_followed ? '已关注' : '关注'}}</van-button>
       </div>
    </div>
 </template>
 
 <script>
+// 引入关注用户和取消用户接口
+import { followUser, unFollowUser } from '@/api/user'
+
 export default {
   name: 'AutoInfo',
   props: {
@@ -28,11 +35,33 @@ export default {
   },
   data () {
     return {
-
+      isFollowLoading: false
     }
   },
   created () {},
-  methods: {}
+  methods: {
+    async handleFollow () {
+      this.isFollowLoading = true
+      try {
+        const authId = this.article.aut_id
+
+        if (this.article.is_followed) {
+          // 取消关注
+          await unFollowUser(authId)
+          // 将客户端的关注状态设置为false
+          this.article.is_followed = false
+        } else {
+          await followUser(authId)
+
+          // 将客户端的关注状态设置为true
+          this.article.is_followed = true
+        }
+      } catch (err) {
+        this.$toast.fail('操作失败')
+      }
+      this.isFollowLoading = false
+    }
+  }
 }
 </script>
 
@@ -47,6 +76,7 @@ export default {
     align-items:center;
   }
   .avatar {
+    margin-right: 10px;
     width: 100px;
     border-radius: 100%;
   }

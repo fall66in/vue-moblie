@@ -85,7 +85,7 @@ export default {
     console.log(data)
   },
   methods: {
-    async onLoad() {
+    async onLoad () {
       await this.$sleep(800)
 
       const data = await this.getSearchResults()

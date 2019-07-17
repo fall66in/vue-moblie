@@ -80,7 +80,7 @@ export default {
     // 第二参数：防抖函数
     // 当你同一时间用频率过快的时候，只有停下来经过指定的时间才会来调用
     // 防抖函数：因为你每在搜索框输入一个值，浏览器就会请求一次，所有用防抖函数来规定一个时间来调用
-    searchText: debounce(async function (newVal)  {
+    searchText: debounce(async function (newVal) {
       // console.log(1)
       newVal = newVal.trim() // 去除首尾空格
 
@@ -98,8 +98,8 @@ export default {
       hendler () {
         // 保存搜索历史记录
         window.localStorage.setItem(
-        'serach-histories',
-        JSON.stringify([...new set(this.serachHistories)])
+          'serach-histories',
+          JSON.stringify([...new Set(this.serachHistories)])
         )
       },
       deep: true // 建议引用类型数据都配置为深度监视
@@ -116,7 +116,6 @@ export default {
     },
     // 触发搜索按钮,跳转到搜索结果的页面
     handleSearch (q) {
-      
       if (!q.length) {
         return
       }
@@ -144,4 +143,3 @@ export default {
 <style lang="less" scoped>
 
 </style>
-

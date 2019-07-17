@@ -75,7 +75,7 @@ export default {
       // } else {
       //   this.codeMessage = '请输入密码'
       //   return
-      // }     
+      // }
       try {
         // 调用JavaScript触发验证
         const valid = await this.$validator.validate()
@@ -88,7 +88,7 @@ export default {
         const res = await login(this.user)
 
         this.$store.commit('setUser', res)
-        
+
         // 这里先简单粗暴的跳转到首页
         // 真实的业务要处理成跳转到之前过来的页面
         this.$router.push({

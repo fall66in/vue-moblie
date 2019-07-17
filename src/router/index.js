@@ -29,9 +29,14 @@ export default new Router({
       component: () => import('@/views/search')
     },
     {
-      name: 'search-result',
+      name: 'search-result', // 搜索结果页面
       path: '/search/:q',
       component: () => import('@/views/search-result')
+    },
+    {
+      name: 'article', // 文章页面
+      path: '/article/:articleId',
+      component: () => import('@/views/article')
     }
   ]
 })

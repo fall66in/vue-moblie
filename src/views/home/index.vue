@@ -100,7 +100,7 @@
       :active-index.sync="activeChannelIndex"
     />
     <!-- /频道组件 -->
-    
+
     <!-- showConfirmButton 是否展示确认按钮
     closeOnClickOverlay 点击遮罩层时是否关闭弹窗
     beforeClose 关闭前的回调函数，
@@ -167,7 +167,7 @@ export default {
       ]
     }
   },
-  
+
   computed: {
     activeChannel () {
       return this.channels[this.activeChannelIndex]
@@ -343,7 +343,7 @@ export default {
 
     async handleReportArticle (type) {
       try {
-        await reportAricle({
+        await reportArticle({
           articleId: this.currentArticle.art_id.toString(),
           type,
           remark: ''

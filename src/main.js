@@ -7,6 +7,7 @@ import 'amfe-flexible'
 import VeeValidate, { Validator } from 'vee-validate'
 import zhCN from 'vee-validate/dist/locale/zh_CN'
 import 'vant/lib/index.css'
+import checkLogin from './utils/check-login'
 
 // 加载时间过滤处理的效果
 import relativeTime from './filters/relativeTime-time'
@@ -19,6 +20,9 @@ Vue.filter('relativeTime', relativeTime)
 Vue.use(VeeValidate, {
   events: '' // 禁用默认事件验证
 })
+
+// 将检查登录状态挂载到vue原型对象上，这样的话任何组件就都可以使用了
+Vue.prototype.$checkLogin = checkLogin
 
 Validator.localize('zh_CN', zhCN)
 // 简单粗暴全引进来，方便使用

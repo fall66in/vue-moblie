@@ -6,6 +6,7 @@
          <!-- <img class="avatar" src="http://toutiao.meiduo.site/FkTXjvBkdM-pE9gQSzFjXlE7cIbY" alt=""> -->
          <div>
            <p>{{ article.aut-name }}</p>
+           <!-- 过滤器 -->
            <p>{{ article.pubdate | relativeTime }}</p>
            <!-- <p>阳光新闻</p>
            <p>1小时前 阳光新闻官方账号</p> -->
@@ -41,6 +42,9 @@ export default {
   created () {},
   methods: {
     async handleFollow () {
+      if (!this.$checkLogin()) {
+        return
+      }
       this.isFollowLoading = true
       try {
         const authId = this.article.aut_id

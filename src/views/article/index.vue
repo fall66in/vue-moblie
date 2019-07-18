@@ -9,7 +9,7 @@
       <h2 class="article-title">{{ article.title }}</h2>
       <AutoInfo class="auto-info" :article="article"/>
       <div class="ariticle-content" v-html="article.content"></div>
-      <MoreAction />
+      <MoreAction :article="article"/>
       <RecommendSearch />
       <RecommendArticle />
       <ReplayList />

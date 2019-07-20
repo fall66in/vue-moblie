@@ -1,21 +1,61 @@
+    <!-- <div>发布评论</div> -->
 <template>
-    <div>发布评论</div>
+ <div class="write-comment">
+   <form action="/">
+      <input type="text" v-model="content">
+   </form>
+   <div>
+     <van-icon name="star-o" />
+   </div>
+   <div>
+     <van-button
+      type="default"
+      size="small"
+      :disabled="!content.length"
+      @click="handleAddComment"
+      >发布</van-button>
+   </div>
+ </div>
 </template>
 
 <script>
+import { addComment } from '@/api/comment'
 export default {
   name: 'WriteComment',
-  props: {},
+  // 声明接受某个父组件通过provide提供的数据
+  inject: ['articleId'],
+  props: {
+    // 文章或评论的id
+    target: {
+      type: [Number, String],
+      required: true
+    }
+  },
   data () {
     return {
-
+      content: ''
     }
   },
   created () {},
-  methods: {}
+  methods: {
+    async handleAddComment () {
+      try {
+        await addComment({
+          target: this.target,
+          content: this.content,
+          articleId: this.articleId
+        })
+        // 更新当前的评论列表
+      } catch {
+        this.$toast.fail('操作失败')
+      }
+    }
+  }
 }
 </script>
 
 <style lang="less" scoped>
-
+.write-comment {
+  display:flex;
+}
 </style>

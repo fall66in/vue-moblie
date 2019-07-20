@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { 
+import {
   getComments,
   likeComment,
   unLikeComment

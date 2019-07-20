@@ -1,6 +1,8 @@
 <template>
     <div>
-        <div>my page</div>
+        <!-- <div>my page</div> -->
+        <un-login v-if="!$store.state.user"/>
+        <user-info v-else/>
         <!-- 底部导航 -->
         <tabbar-layout />
         <!-- 底部导航 -->
@@ -8,11 +10,18 @@
 </template>
 
 <script>
+import UnLogin from './components/un-login'
+import UserInfo from './components/user-info'
+
 export default {
   name: 'MyIndex',
+  components: {
+    UnLogin,
+    UserInfo
+  },
   data () {
     return {
-      
+
     }
   }
 }

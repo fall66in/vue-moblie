@@ -57,6 +57,9 @@
           @click="serachHistories.splice(index, 1)"/>
           </van-cell>
         </van-cell-group>
+        <!-- 底部导航 -->
+        <tabbar-layout />
+        <!-- 底部导航 -->
     </div>
 </template>
 

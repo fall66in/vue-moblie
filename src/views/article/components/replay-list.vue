@@ -37,7 +37,7 @@ export default {
       type: [Number, String]
     }
   },
-  
+
   activated () {
     console.log('activated')
   },

@@ -42,6 +42,11 @@ export default new Router({
       name: 'my', // 我的
       path: '/my',
       component: () => import('@/views/my')
+    },
+    {
+      name: 'user-settings', // 编辑个人信息
+      path: '/user-settings',
+      component: () => import('@/views/user-settings')
     }
   ]
 })

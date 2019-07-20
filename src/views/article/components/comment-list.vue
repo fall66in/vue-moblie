@@ -19,7 +19,11 @@
           <span>{{ item.aut_name }}</span>
         </div>
          <div slot="default">
-          <van-button icon="like-o" size="mini" plain>赞{{ item.like_count }}</van-button>
+          <van-button
+          :icon="item.is_liking ? 'like' : 'like-o'"
+          size="mini"
+          @click="handleLikeComment(item)"
+          plain>赞{{ item.like_count }}</van-button>
         </div>
         <div slot="label">
           <p>{{ item.content }}</p>
@@ -40,7 +44,11 @@
 </template>
 
 <script>
-import { getComments } from '@/api/comment'
+import { 
+  getComments,
+  likeComment,
+  unLikeComment
+} from '@/api/comment'
 // import replyList from './replay-list'
 export default {
   name: 'CommentList',
@@ -116,6 +124,22 @@ export default {
 
       // 将本次数据拿到的last_id保存起来，用于下一次onload加载下一页数据
       this.offset = data.last_id
+    },
+    // 评论取消/点赞
+    async handleLikeComment (item) {
+      try {
+        if (item.is_liking) {
+          // 取消点赞
+          await unLikeComment(item.com_id)
+          item.is_liking = false
+        } else {
+          // 点赞
+          await likeComment(item.com_id)
+          item.is_liking = true
+        }
+      } catch (err) {
+        this.$toast.fail('操作失败')
+      }
     }
   }
 }

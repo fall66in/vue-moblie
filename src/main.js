@@ -8,9 +8,13 @@ import VeeValidate, { Validator } from 'vee-validate'
 import zhCN from 'vee-validate/dist/locale/zh_CN'
 import 'vant/lib/index.css'
 import checkLogin from './utils/check-login'
+import AppTabbar from './components/tabbar-layout'
 
 // 加载时间过滤处理的效果
 import relativeTime from './filters/relativeTime-time'
+
+// 挂载顶部列表
+Vue.component('tabbar-layout', AppTabbar)
 
 // 注册vant的图片懒加载自定义指令
 Vue.use(Lazyload)

@@ -131,6 +131,10 @@
       </van-cell-group>
     </van-dialog>
     <!-- /更多操作弹框 -->
+
+    <!-- 底部导航 -->
+    <tabbar-layout />
+    <!-- 底部导航 -->
   </div>
 </template>
 

@@ -10,7 +10,7 @@
     @close="handleClose"
     @open="handleOpen"
   >
-    <comment-list ref="comment-list" :source="commentId" :isArticle="false"></comment-list>
+    <comment-list v-if="value" ref="comment-list" :source="commentId" :isArticle="false"></comment-list>
     <write-comment :target="commentId" :article-id="articleId" />
   </van-popup>
 </template>

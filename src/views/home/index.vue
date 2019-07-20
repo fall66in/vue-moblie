@@ -45,6 +45,7 @@
               v-for="item in channelItem.articles"
               :key="item.art_id.toString()"
               :title="item.title"
+              @click="$router.push({ name: 'article', params: { articleId: item.art_id }})"
             >
               <div slot="label">
                 <template v-if="item.cover.type">
@@ -93,6 +94,7 @@
       @update:user-channels="channels = $event"
       简单来说，给 props 数组加 .sync 其实就是 v-model 的作用
       只不过一个组件只能有一个 v-model
+      :user-channels.sync="channels" 用户频道
      -->
     <home-channel
       v-model="isChannelShow"

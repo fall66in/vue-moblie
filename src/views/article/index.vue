@@ -10,11 +10,18 @@
       <AutoInfo class="auto-info" :article="article"/>
       <div class="ariticle-content" v-html="article.content"></div>
       <MoreAction :article="article"/>
-      <RecommendSearch />
-      <RecommendArticle />
-      <ReplayList />
-      <WriteComment />
-      <CommentList />
+      <!-- <RecommendSearch />
+      <RecommendArticle /> -->
+      <CommentList
+      :source="$route.params.articleId.toString()"
+      @is-replyList-show="handleIsReplayListShow"/>
+      <!-- 回复评论组件 -->
+      <ReplayList
+      v-model="isReplyListShow"
+      :comment-id="commentId"
+      />
+      <!-- 回复评论组件 -->
+      <!-- <WriteComment /> -->
    </div>
 </template>
 
@@ -22,10 +29,10 @@
 import AutoInfo from './components/auto-info'
 import CommentList from './components/comment-list'
 import MoreAction from './components/more-action'
-import RecommendArticle from './components/recomment-article'
-import RecommendSearch from './components/recommend-search'
+// import RecommendArticle from './components/recomment-article'
+// import RecommendSearch from './components/recommend-search'
 import ReplayList from './components/replay-list'
-import WriteComment from './components/write-comment'
+// import WriteComment from './components/write-comment'
 // 获取文章详情接口
 import { getArticlesDetail } from '@/api/article'
 
@@ -35,10 +42,10 @@ export default {
     AutoInfo,
     CommentList,
     MoreAction,
-    RecommendArticle,
-    RecommendSearch,
+    // RecommendArticle,
+    // RecommendSearch,
     ReplayList,
-    WriteComment
+    // WriteComment
   },
   data () {
     return {
@@ -55,7 +62,9 @@ export default {
         pubdate: '2018-11-29T15:22:27',
         recomments: [],
         title: '全连接网络到卷积神经网络逐步推导（组图无公式）'
-      }
+      },
+      isReplyListShow: false, // '控制回复组件的显示状态'
+      commentId: null // 点击评论的id
     }
   },
   created () {
@@ -73,6 +82,10 @@ export default {
       } catch (err) {
         console.log(err)
       }
+    },
+    handleIsReplayListShow (id) {
+      this.commentId = id
+      this.isReplyListShow = true
     }
   }
 }
@@ -92,6 +105,7 @@ export default {
     position: sticky;
     top: 0;
     background: #fff;
+    z-index: 10;
   }
 }
 

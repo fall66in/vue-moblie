@@ -47,6 +47,11 @@ export default new Router({
       name: 'user-settings', // 编辑个人信息
       path: '/user-settings',
       component: () => import('@/views/user-settings')
+    },
+    {
+      name: 'chat', // 小智聊天
+      path: '/chat',
+      component: () => import('@/views/chat')
     }
   ]
 })

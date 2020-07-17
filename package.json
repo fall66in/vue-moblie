@@ -15,7 +15,7 @@
     "eslint-loader": "^2.2.1",
     "json-bigint": "^0.3.0",
     "lib-flexible": "^0.3.2",
-    "lodash": "^4.17.14",
+    "lodash": "^4.17.19",
     "postcss-pxtorem": "^4.0.1",
     "socket.io-client": "^2.2.0",
     "vant": "^2.0.6",

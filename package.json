@@ -13,7 +13,7 @@
     "core-js": "^2.6.5",
     "dayjs": "^1.8.15",
     "eslint-loader": "^2.2.1",
-    "json-bigint": "^0.3.0",
+    "json-bigint": "^1.0.0",
     "lib-flexible": "^0.3.2",
     "lodash": "^4.17.14",
     "postcss-pxtorem": "^4.0.1",
